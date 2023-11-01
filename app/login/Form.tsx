@@ -41,11 +41,9 @@ const LogUp = ({type}: {type: string}) => {
         if (data.success) {
           // router.replace("dashboard")
           const login = await signIn('credentials', {
-            email: email, // can be changed to `email` or `username` or anything else
+            email: email,
             password: password,
-            // callbackUrl: 'http://localhost:3000/dashboard',
-            redirect: false // this is important
-            // redirect: true
+            redirect: false
           })
           if (login?.status == 200) {
             // push('/')
@@ -60,30 +58,19 @@ const LogUp = ({type}: {type: string}) => {
         setError(<FaSpinner className="animate-spin text-[2rem]" />)
       // siging in
       const res = await signIn('credentials', {
-        email: email, // can be changed to `email` or `username` or anything else
+        email: email, 
         password: password,
-        // callbackUrl: 'http://localhost:3000/dashboard',
-        redirect: false // this is important
-        // redirect: true
+        redirect: false 
       })
       if (res?.status == 200) {
-        // push('/')
         setError("")
         router.replace("dashboard")
       } else {
-        // throw new Error(res.error)
           setError("Wrong credentials!")
       }
     }} catch (error) {
       console.error(error)
-      // console.log(error.message) // error in the provider
     }
-
-    // const token = await getCsrfToken()
-    // const request = await fetch("/api/auth/callback/credentials",{
-    //   method: "POST",
-    //   body: JSON.stringify({email: email, password:password, csrfToken: token})
-    // })
   }
   useEffect(() => {
     document.title = 'Log Into your account or Sign Up'
@@ -91,9 +78,9 @@ const LogUp = ({type}: {type: string}) => {
   return (
     <div className="flex flex-col min-h-[100vh] w-full justify-center items-center">
         <div className="loginForm flex justify-center w-[100%]">
-          <div className='holder bg-[#1d1b1b] min-h-[400px] w-[60%] md:w-[30%] rounded-[15px]'>
+          <div className='holder  bg-[#1d1b1b] min-h-[400px] w-[90%] md:w-[35%] rounded-[15px]'>
           <form onSubmit={submitHanlder} className='flex flex-col w-full justify-center items-center'>
-            <div className='flex flex-col w-[50%]'>
+            <div className='flex flex-col w-[75%] md:w-[50%]'>
             {error && <p className='text-[20px] flex justify-center text-center fadein text-white'>{error}</p>}
 
            {type === "signup" && <> <label htmlFor="name" className='mt-[10px] ml-[6px] text-[#fff]'>Full Name:</label>
