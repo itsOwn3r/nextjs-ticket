@@ -18,9 +18,9 @@ const Header = () => {
             <div className="flex justify-center items-center bg-[rgb(79,134,100)] w-[30px] h-[30px] rounded-[50%] hover:scale-125">
               <BsChatSquare />
             </div>
-            <div className="conversation flex md:flex-col ml-[7px] cursor-pointer hover:text-[rgb(79,134,100)]">
+            <div className="conversation flex md:flex-col text-[15px] ml-[7px] cursor-pointer hover:text-[rgb(79,134,100)]">
               <h3>Hello </h3>
-              <p className="ml-[3px] md:ml-[unset] max-w-[max-content] overflow-hidden">{session?.data?.user?.name || ''}</p>
+              <p className="ml-[3px] md:ml-[unset] max-w-[max-content] overflow-hidden text-[15px] md:text-[18px]">{session?.data?.user?.name || ''}</p>
             </div>
           </div>
           <Link href="/new" className="leading-6 items-center hidden md:flex p-[7px] cursor-pointer hover:text-[rgb(79,134,100)]">+ Add</Link>
