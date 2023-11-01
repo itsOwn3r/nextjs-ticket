@@ -242,7 +242,7 @@ if (user.status === "loading") {
         handleTags() 
       }
           onKeyDown={e => e.key === "Enter" && handleTags() }
-           type="text" name="tag" placeholder="type + enter" className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]"/>
+           type="text" name="tag" placeholder="type + enter" disabled={type === "ticket" ? true : false} className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]"/>
         
         <div className="holderOfSpans flex rtl justify-center items-center bg-transparent">
 

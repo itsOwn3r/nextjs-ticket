@@ -13,14 +13,14 @@ const Header = () => {
     <header>
       <div className="flex justify-between">
         <div className="flex h-[60px] w-full">
-          <div className="flex items-center leading-6 w-[10em] cursor-pointer border-b-[1px] border-b-[#686868] border-solid border-r-[1px] border-r-[#686868]">  
+          <div className="flex items-center leading-6 w-[10em] md:w-[12em] cursor-pointer border-b-[1px] border-b-[#686868] border-solid border-r-[1px] border-r-[#686868]">  
             {/*name of agent*/}
             <div className="flex justify-center items-center bg-[rgb(79,134,100)] w-[30px] h-[30px] rounded-[50%] hover:scale-125">
               <BsChatSquare />
             </div>
             <div className="conversation flex md:flex-col ml-[7px] cursor-pointer hover:text-[rgb(79,134,100)]">
               <h3>Hello </h3>
-              <p className="ml-[3px] md:ml-[unset]">{session?.data?.user?.name || ''}</p>
+              <p className="ml-[3px] md:ml-[unset] max-w-[max-content] overflow-hidden">{session?.data?.user?.name || ''}</p>
             </div>
           </div>
           <Link href="/new" className="leading-6 items-center hidden md:flex p-[7px] cursor-pointer hover:text-[rgb(79,134,100)]">+ Add</Link>
