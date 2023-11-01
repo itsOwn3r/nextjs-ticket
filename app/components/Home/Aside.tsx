@@ -8,7 +8,7 @@ import Link from "next/link";
 const Aside = () => {
   return (
     <div className="flex">
-      <aside className="flex flex-col z-10 justify-between fixed mr-[7px] text-center min-h-[100vh] p-[1px] md:p-[7px] bg-[#0a2c0a] border-r-[1px] border-r-solid border-r-grey">
+      <aside className="flex flex-col z-10 justify-between fixed mr-[7px] text-center min-h-[100%] p-[1px] md:p-[7px] bg-[#0a2c0a] border-r-[1px] border-r-solid border-r-grey">
         <div className="icon">
           <div className="owner logo flex justify-center mb-[25px] cursor-pointer hover:bg-[#817d7d] hover:rounded-[15px]">
             <Image src="/images/own3rsm.png" alt="Logo" width={35} height={45} priority />
