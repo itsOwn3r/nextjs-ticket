@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.rtl{
+  direction: rtl;
+}
+
+.fadein{
+  animation: fadeInAni 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+/* .icon a label{
+  display: none;
+} */
+aside:hover .icon a label{
+display: block;
+}
+
+.full-width{
+  width: calc(100% - 57px)
+}
+
+main div section {
+  /* display: flex; */
+  align-items: center;
+  justify-content: space-around;
+}
+
+.holder{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgnone{
+  background: none;
+}
+
+@keyframes fadeInAni {
+  0% {
+   transform: translate(0, -3vh);
+  }
+  100% {
+    transform: translate(0, 0);
+   }
+}
