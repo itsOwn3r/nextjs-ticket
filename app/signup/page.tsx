@@ -6,7 +6,7 @@ import LogUp from '../login/Form'
 const Page = async () => {
         const session = await getServerSession() 
         if (session?.user?.name !== undefined) {
-          redirect("/dashboard")
+          redirect("/")
         }
 
   return (

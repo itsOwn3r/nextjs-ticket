@@ -14,7 +14,7 @@ const Aside = () => {
             <Image src="/images/own3rsm.png" alt="Logo" width={35} height={45} priority />
           </div>
           <div className="icons flex flex-col justify-between h-[25vh]">
-            <Link href="/dashboard" className="cursor-pointer flex-col md:flex-row inline-flex text-[17px] md:text-[22px] items-center hover:text-[#4b4ba7]">
+            <Link href="/" className="cursor-pointer flex-col md:flex-row inline-flex text-[17px] md:text-[22px] items-center hover:text-[#4b4ba7]">
               <BiSolidHome className="text-[30px]" />
               <label className="ml-[2px] md:ml-[7px] cursor-pointer block md:hidden"> Home </label>
             </Link>
@@ -22,7 +22,7 @@ const Aside = () => {
               <FaTicketAlt className="text-[30px]" />
               <label className="ml-[2px] md:ml-[7px] cursor-pointer block md:hidden"> New </label>
             </Link>
-            <Link href="/dashboard/setting" className="cursor-pointer flex-col md:flex-row inline-flex text-[17px] md:text-[22px]  items-center hover:text-[#4b4ba7]" > 
+            <Link href="/setting" className="cursor-pointer flex-col md:flex-row inline-flex text-[17px] md:text-[22px]  items-center hover:text-[#4b4ba7]" > 
             <FiUser className="text-[30px]" />
             <label className="ml-[2px] md:ml-[7px] cursor-pointer block md:hidden"> Profile </label>
             </Link>
@@ -30,7 +30,7 @@ const Aside = () => {
         </div>
 
         <div className="setting-icon icon mb-[40px]">
-          <Link href="/dashboard/setting" className="hover:text-[#4b4ba7] cursor-pointer inline-flex flex-col md:flex-row text-[16px] items-center" >
+          <Link href="/setting" className="hover:text-[#4b4ba7] cursor-pointer inline-flex flex-col md:flex-row text-[16px] items-center" >
             <AiOutlineSetting className="text-[25px]" />
             <label className="ml-[2px] md:ml-[7px] cursor-pointer block md:hidden"> Setting </label>
           </Link>

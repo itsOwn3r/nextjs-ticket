@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { BsFillChatQuoteFill } from 'react-icons/bs'
-import { getDate } from '../components/dateHandler'
+import { getDate } from './components/dateHandler'
 
 
 type Ticket = {

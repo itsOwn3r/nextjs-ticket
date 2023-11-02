@@ -36,7 +36,7 @@ const Home = async ({ticket, documentTitle}: {ticket: Ticket, documentTitle: str
       <div className="full-width">
         <div className="wrapper h-full">
           <Header />
-          <SubHeader status={ticket?.status || "Open"} TicketNumber={ticket?.id} text={<Link href="/dashboard">Other Tickets?</Link>} />
+          <SubHeader status={ticket?.status || "Open"} TicketNumber={ticket?.id} text={<Link href="/">Other Tickets?</Link>} />
           <Content ticket={ticket} type="ticket" documentTitle={documentTitle} />
         </div>
       </div>
