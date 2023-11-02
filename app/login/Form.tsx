@@ -39,7 +39,6 @@ const LogUp = ({type}: {type: string}) => {
         })
         const data = await req.json()
         if (data.success) {
-          // router.replace("dashboard")
           const login = await signIn('credentials', {
             email: email,
             password: password,
@@ -47,7 +46,7 @@ const LogUp = ({type}: {type: string}) => {
           })
           if (login?.status == 200) {
             // push('/')
-            router.replace("dashboard")
+            router.replace("/")
           }
         }else{
           if (data.error) {
@@ -64,7 +63,7 @@ const LogUp = ({type}: {type: string}) => {
       })
       if (res?.status == 200) {
         setError("")
-        router.replace("dashboard")
+        router.replace("/")
       } else {
           setError("Wrong credentials!")
       }
