@@ -81,7 +81,7 @@ const Setting = () => {
           <SubHeader status="Setting" text="" />
 
           <div className="flex w-full h-full justify-center">
-            <div className="rounded-[10px] w-[50%] flex justify-center flex-col items-center">
+            <div className="rounded-[10px] w-[100%] md:w-[50%] flex justify-center flex-col items-center">
                 {error && <p className="mb-[10px]">{error}</p>}
                 <div className="relative cursor-pointer inline-flex mt-[20px] w-[120px] h-[120px] items-center justify-center border-dashed border-[1px] border-black ">
                   {session?.data?.user?.avatar ? <img
@@ -97,8 +97,8 @@ const Setting = () => {
                 </div>
               <p>Want to change your Avatar?</p>
               <div className="w-full relative flex justify-center mt-[15px]">
-                    <input className="opacity-0 absolute w-[45%] py-[8px] cursor-pointer" type="file" name="avatar" id="" onChange={inputHandler} />
-                <span className="bg-[#3177b1] w-[45%] flex justify-center py-[8px] cursor-pointer rounded-[10px]">Select a file</span>
+                    <input className="opacity-0 absolute w-[45%] md:w-[35%] py-[8px] cursor-pointer" type="file" name="avatar" id="" onChange={inputHandler} />
+                <span className="bg-[#3177b1] w-[45%] md:w-[35%] flex justify-center py-[8px] cursor-pointer rounded-[10px]">Select a file</span>
               </div>
               {previewImg &&
           previewImg.map((img, i) => (
