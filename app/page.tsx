@@ -3,7 +3,7 @@ import Aside from "./components/Home/Aside";
 import { Metadata } from "next";
 import Header from "./components/Home/Header";
 import SubHeader from "./components/Home/SubHeader";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import Ticket from "./ticket";
 import Link from "next/link";
@@ -12,7 +12,6 @@ import { FaSpinner } from "react-icons/fa";
 
 
 export async function getTickets() {
-  const prisma = new PrismaClient()
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
    let tickets;
@@ -53,7 +52,7 @@ export async function DisplayRecentTickets(){
   const recentTickets: {id: string, text: string, date: number}[] = []
 
   for(let ticket of tickets){
-    recentTickets.push({id: ticket.id,text: ticket.ticket[ticket.ticket.length - 1].text, date: ticket.ticket[ticket.ticket.length - 1].date})
+    recentTickets.push({id: ticket.id,text: ticket.ticket[ticket.ticket.length - 1]!.text, date: ticket.ticket[ticket.ticket.length - 1]!.date})
   }
 
   let rtArr = recentTickets.splice(0, 5) // recent tickets array, it only shows first 5 tickets

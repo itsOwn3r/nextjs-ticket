@@ -1,9 +1,8 @@
 import { createHmac } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma/client";
 
 export async function POST(resuqest: NextRequest) {
-    const prisma = new PrismaClient()
     const {email, password, name} = await resuqest.json()
     if (!email || !password || !name) {
         return NextResponse.json({error: "Something Went Wrong!"})
