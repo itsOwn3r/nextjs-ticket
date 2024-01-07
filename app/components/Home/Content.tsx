@@ -76,7 +76,7 @@ setPics(data)
 }
 
 const openHandler = async () => {
-    if (messageValue === "" && pics.length < 1) {
+    if (title === "" || (messageValue === "" && pics[0]["img"].toString().length < 1)) {
       return;
     }
     let formData:any = new FormData();
