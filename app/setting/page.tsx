@@ -3,6 +3,7 @@ import Aside from "@/app/components/Home/Aside";
 import Header from "@/app/components/Home/Header";
 import SubHeader from "@/app/components/Home/SubHeader";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 type blobing =  { img: Blob | MediaSource | string}[];
@@ -11,7 +12,7 @@ const Setting = () => {
     const [previewImg, setPreviewImg] = useState<blobing>([{img: ""}]);
     const router = useRouter()
     const session = useSession()
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string | null>(null)
     const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
           // const fileInput = e.target
           const fileInput = e.target;
@@ -35,7 +36,7 @@ const Setting = () => {
 
 
 
-    const submitHandler = async (text: string) => {
+    const submitHandler = async () => {
         let formData:any = new FormData();
         if (previewImg.length >= 1) {
           for(let image of previewImg){
@@ -67,7 +68,7 @@ const Setting = () => {
                   router.refresh()
                 }   
           } catch (error) {
-            setError(error?.message)
+            setError((error as Error).message)
           }
     }
 
@@ -84,11 +85,13 @@ const Setting = () => {
             <div className="rounded-[10px] w-[100%] md:w-[50%] flex justify-center flex-col items-center">
                 {error && <p className="mb-[10px]">{error}</p>}
                 <div className="relative cursor-pointer inline-flex mt-[20px] w-[120px] h-[120px] items-center justify-center border-dashed border-[1px] border-black ">
-                  {session?.data?.user?.avatar ? <img
+                  {session?.data?.user?.avatar ? <Image
+                    fill
                     className="absolute top-0 w-full h-full rounded-[40%] picHolder"
                     src={session.data?.user.avatar}
                     alt=""
-                  /> : <img
+                  /> : <Image
+                    fill
                     className="absolute top-0 w-full h-full rounded-[40%] picHolder"
                     src="/images/bubble-gum-avatar-icon3.png"
                     alt=""
@@ -103,10 +106,11 @@ const Setting = () => {
               {previewImg &&
           previewImg.map((img, i) => (
             <React.Fragment key={i}>
-              {img.img !== "" ? (
+              {typeof img.img !== "string" ? (
                <>
                <div className="relative cursor-pointer inline-flex mt-[20px] w-[120px] h-[120px] items-center justify-center border-dashed border-[1px] border-black ">
-                  <img
+                  <Image
+                    fill
                     className="absolute top-0 w-full h-full rounded-[40%] picHolder"
                     src={URL.createObjectURL(img.img)}
                     alt=""

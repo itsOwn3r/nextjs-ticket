@@ -1,5 +1,4 @@
 import NextAuth, { DefaultUser } from "next-auth"
-
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -10,25 +9,35 @@ declare module "next-auth" {
       name: string
       avatar?: string
       type: string
+      password?: string
     }
   }
 
   interface User extends DefaultUser {
-      type: string    
-      id: string
-      name?: string | null
-      email: string
-      image?: string | null
-      avatar?: string | null
-      password: string
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    type: user.type,
+    avatar: user.avatar,
   }
 
+
+  export interface DefaultUser {
+    id: string
+    name?: string | null
+    email?: string | null
+    password?: string
+    avatar?: string | null
+  }
+  Currentl
   
 declare module "@auth/core/adapters" {
     interface AdapterUser {
       // Add your additional properties here:
       email: string | null;
-      password: string | null;
+      password?: string | null;
+      avatar?: string
+      type: string
     }
   }
 }

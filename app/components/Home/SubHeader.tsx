@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 type Props = {
     status: String,
-    TicketNumber: String | undefined,
+    TicketNumber?: String,
     text: String | undefined | ReactNode
 }
 
