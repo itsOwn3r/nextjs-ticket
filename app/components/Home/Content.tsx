@@ -30,7 +30,7 @@ type Ticket = {
   tag: string[],
   userName: string,
   images: string[],
-  responder: {name: string, email: string, phone: string, lang: string, avatar: string | null }[],
+  responder: {name: string, email: string, phone: string, lang: string, avatar: string | undefined }[],
   date: number,
   time: Date
 }
@@ -82,13 +82,9 @@ const openHandler = async () => {
     let formData:any = new FormData();
     if (pics.length >= 1) {
       for(let image of pics){
-        console.log(typeof image);
-        console.log(typeof image.img);
-        console.log(image);
-        // return;
-      if (typeof image.img !== "string") {
-        formData.append("files", image.img)
-      }
+        if (typeof image.img !== "string") {
+          formData.append("files", image.img)
+        }
     }
     }
     const initialTicketValue = [{
@@ -337,7 +333,7 @@ if (user.status === "loading") {
             return <Chat key={i}
             name={ticket.name}
             username={user!.data!.user!.name!}
-            avatar={ticket.avatar || null}
+            avatar={ticket.avatar || undefined}
             text={ticket.text}
             attachment={ticket.images}
             date={ticket.date}

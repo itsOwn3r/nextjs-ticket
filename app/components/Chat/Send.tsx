@@ -20,44 +20,63 @@ interface SendProps{
 
 const Send = ({type, setMessageValue, getFormData, id, name, email, avatar, userType}: SendProps) => {
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [previewImg, setPreviewImg] = useState<blobing>([{img: ""}]);
-  const router = useRouter()
+  const router = useRouter();
+
   const submitHandler = async (text: string) => {
-    if (text === "" && allArr.length < 1) {
-      return;
-    }
-    let formData:any = new FormData();
-    if (previewImg.length >= 1) {
-      for(let image of previewImg){
-      if (typeof image.img !== "string") {
-        formData.append("files", image.img)
+    try {
+
+      setIsLoading(true)
+
+      if (text === "" && allArr.length < 1) {
+        return;
       }
+
+      let formData:any = new FormData();
+      if (previewImg.length >= 1) {
+        for(let image of previewImg){
+          if (typeof image.img !== "string") {
+            formData.append("files", image.img)
+          }
+        }
+      }
+
+      const dataObj = {
+        id: id,
+        text: text,
+        name: name,
+        email: email,
+        avatar: avatar || null,
+        type: userType || null,
+        date: Math.ceil(Date.now() / 1000)
+      }
+
+      formData.append("message", JSON.stringify(dataObj));
+      document.querySelector("#sendbtn")?.classList.add("animate-spin");
+
+      const res = await fetch("/api/message", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        document.querySelector("#sendbtn")?.classList.remove("animate-spin");
+        setMessage("");
+        setPreviewImg([{img: ""}]);
+        router.refresh();
+      }else{
+        document.querySelector("#sendbtn")?.classList.remove("animate-spin");
+      }
+
+    } catch (error) {
+      alert((error as Error).message)
+    } finally {
+      setIsLoading(false)
     }
-    }
-const dataObj = {
-  id: id,
-  text: text,
-  name: name,
-  email: email,
-  avatar: avatar || null,
-  type: userType || null,
-  date: Math.ceil(Date.now() / 1000)
-}
-    formData.append("message", JSON.stringify(dataObj));
-    document.querySelector("#sendbtn")?.classList.add("animate-spin")
-    const res = await fetch("/api/message", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json()
-    if (data.success) {
-      document.querySelector("#sendbtn")?.classList.remove("animate-spin")
-      setMessage("")
-      setPreviewImg([{img: ""}])
-      router.refresh()
-    }else{
-      document.querySelector("#sendbtn")?.classList.remove("animate-spin")
-    }
+    
   };
   const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.type === "change") {
@@ -89,13 +108,13 @@ const dataObj = {
       <div className="wrapper relative flex justify-center items-center">
 
         <div>
-          <input onChange={(e) => inputHandler(e)} type="file" max="3" multiple name="files[]" id="input" className="opacity-0 w-7 h-full absolute p-[15px] m-[5px] cursor-pointer z-20" />
+          <input disabled={isLoading} onChange={(e) => inputHandler(e)} type="file" max="3" multiple name="files[]" id="input" className="opacity-0 w-7 h-full absolute p-[15px] m-[5px] cursor-pointer z-20" />
           <ImAttachment className="w-[24px] h-[24px] md:mx-[10px] cursor-pointer" />
         </div>
       </div>
       <form className="mb-[24px] flex flex-col w-[85%] md:w-[65%] text-center mx-[10px]">
         <span>{type === "newticket" ? "Tell Us About It:" :  'New Message?'}</span>
-        <textarea onChange={(e) => { 
+        <textarea disabled={isLoading} onChange={(e) => { 
           if (setMessage) {
             setMessage(e.target.value)  
           }
@@ -105,7 +124,7 @@ const dataObj = {
           }  value={message} name="message" id="message" className="w-[100%] bgnone border-solid border-[1px] border-[#bbb] text-[#fff] p-[3] rounded-[10px] leading-[2] md:leading-[3]" />
       </form>
       {type !== "newticket" &&
-      <button className="w-[30px] h-[30px]" onClick={() => submitHandler(message)} >
+      <button disabled={isLoading} className="w-[30px] h-[30px]" onClick={() => submitHandler(message)} >
         <FiSend id="sendbtn" className="w-full h-full" />
       </button>
 }

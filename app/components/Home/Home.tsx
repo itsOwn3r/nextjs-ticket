@@ -3,9 +3,6 @@ import Aside from "./Aside";
 import Header from "./Header";
 import SubHeader from "./SubHeader";
 import Content from "./Content";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getSession } from "next-auth/react";
 import Link from "next/link";
 type Ticket = {
   id: string,
@@ -13,7 +10,7 @@ type Ticket = {
   ticket: {
     user: string,
     name: string,
-    avatar: string | null,
+    avatar: string | undefined,
     images: string[],
     text: string,
     date: number
@@ -25,7 +22,7 @@ type Ticket = {
   tag: string[],
   userName: string,
   images: string[],
-  responder: { name: string; email: string; phone: string; lang: string; avatar: string | null; }[],
+  responder: { name: string; email: string; phone: string; lang: string; avatar: string | undefined; }[],
   date: number,
   time: Date
 }

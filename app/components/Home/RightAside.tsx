@@ -1,22 +1,22 @@
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
 import { BsGlobe2 } from "react-icons/bs";
 import RightAsideLinks from "./RightAsideLinks";
-const RightAside = ({ type, response }: { type: string, response: {name: string, email: string, phone: string, lang: string, avatar: string | null}[] }) => {
+import Image from "next/image";
+const RightAside = ({ type, response }: { type: string, response: {name: string, email: string, phone: string, lang: string, avatar: string | undefined}[] }) => {
   return (
     <div className="flex flex-col h-[100vh] md:w-[25%] w-[100%]">
       {type === "ticket" && (
         <>
           <div className="asignee h-[50%] w-[100%] flex flex-col justify-start mt-[15px]">
             <div className="avatar flex items-center justify-center md:justify-start w-[90%] h-[80px]">
-              {response?.length > 0 ? <img
+              {response?.length > 0 ? <Image width={70} height={70}
                 className="w-[70px] rounded-[100%] hover:brightness-75 cursor-pointer"
-                src={response[response?.length - 1]?.avatar}
+                src={response[response?.length - 1]?.avatar || ""}
                 alt=""
               /> :
-              <img
+              <Image width={70} height={70}
                 className="w-[70px] rounded-[100%] hover:brightness-75 cursor-pointer"
                 src="/images/bubble-gum-avatar-icon3.png"
                 alt=""

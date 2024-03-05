@@ -5,39 +5,42 @@ import { useRouter } from 'next/navigation'
 import React, { FormEvent, useEffect, useState } from 'react'
 import { FaSpinner } from "react-icons/fa"
 const LogUp = ({type}: {type: string}) => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState<null | string>(null)
-  const router = useRouter()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState<null | boolean>(null);
+  const router = useRouter();
+
   const submitHanlder = async (e:FormEvent) =>{
-    e.preventDefault()
+    e.preventDefault();
     try {
+      setIsLoading(true);
+      setError("");
       if (email === "" || !email.includes("@") || !email.includes(".") || email.length < 8  || password.length < 8) {
         if (error === "Please Enter All The Required Data Correctly!") {
          if (document.querySelector("p.fadein")?.classList.contains("text-white")) {
-            document.querySelector("p.fadein")?.classList.remove("text-white")
+            document.querySelector("p.fadein")?.classList.remove("text-white");
             document.querySelector("p.fadein")?.classList.add("text-[#808080]");
           }else{
-          document.querySelector("p.fadein")?.classList.remove("text-[#808080]")
+          document.querySelector("p.fadein")?.classList.remove("text-[#808080]");
             document.querySelector("p.fadein")?.classList.add("text-white");
           }
         } else {
-          setError("Please Enter All The Required Data Correctly!")
+          setError("Please Enter All The Required Data Correctly!");
         }
         return;
       }
       if (type === "signup") {
         if(name.length < 3) {
-          setError("Please Enter All The Required Data Correctly!")
+          setError("Please Enter All The Required Data Correctly!");
           return;
         }
-          setError(<FaSpinner className="animate-spin text-[2rem]" />)
        const req = await fetch("/api/signup", {
           method: "POST",
           body: JSON.stringify({name:name, email:email, password: password})
         })
-        const data = await req.json()
+        const data = await req.json();
         if (data.success) {
           const login = await signIn('credentials', {
             email: email,
@@ -46,15 +49,14 @@ const LogUp = ({type}: {type: string}) => {
           })
           if (login?.status == 200) {
             // push('/')
-            router.replace("/")
+            router.replace("/");
           }
         }else{
           if (data.error) {
-            setError(data.error.meta.target)
+            setError(data.error.meta.target);
           }
         }
       }else{
-        setError(<FaSpinner className="animate-spin text-[2rem]" />)
       // siging in
       const res = await signIn('credentials', {
         email: email, 
@@ -62,17 +64,19 @@ const LogUp = ({type}: {type: string}) => {
         redirect: false 
       })
       if (res?.status == 200) {
-        setError("")
-        router.replace("/")
+        setError("");
+        router.replace("/");
       } else {
-          setError("Wrong credentials!")
+          setError("Wrong credentials!");
       }
     }} catch (error) {
-      console.error(error)
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
   useEffect(() => {
-    document.title = 'Log Into your account or Sign Up'
+    document.title = 'Log Into your account or Sign Up';
   },[])
   return (
     <div className="flex flex-col min-h-[100vh] w-full justify-center items-center">
@@ -81,6 +85,7 @@ const LogUp = ({type}: {type: string}) => {
           <form onSubmit={submitHanlder} className='flex flex-col w-full justify-center items-center'>
             <div className='flex flex-col w-[75%] md:w-[50%]'>
             {error && <p className='text-[20px] flex justify-center text-center fadein text-white'>{error}</p>}
+            {isLoading && <p className='text-[20px] flex justify-center text-center mt-4 text-white'><FaSpinner className="animate-spin text-[2rem]" /></p>}
 
            {type === "signup" && <> <label htmlFor="name" className='mt-[10px] ml-[6px] text-[#fff]'>Full Name:</label>
             <input type="text" id='name' onChange={e => setName(e.target.value)} className='bg-[#323232] text-[#fff] outline-none p-[7px] rounded-[7px]' name="name" placeholder='John Doe'/>
