@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import { MessageType } from "@/types/types";
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
-  const message = JSON.parse(formData.get("message"));
+  const message = formData.get("message") as string;
+  const jsonMessage: MessageType = JSON.parse(message);
 
   // Empty arr to store the image urls
   const images: string[] = [];
@@ -19,6 +22,7 @@ export async function POST(request: NextRequest) {
     const secondFormData = new FormData();
     secondFormData.append("file", File);
     secondFormData.append("upload_preset", process.env.upload_preset!);
+    
     try {
       const req = await fetch(url, {
         method: "POST",
@@ -28,6 +32,7 @@ export async function POST(request: NextRequest) {
       if (response.secure_url) {
         images.push(response.secure_url);
       }
+
     } catch (error) {
       return NextResponse.json(
         { status: "Not Ok", Error: error },
@@ -39,30 +44,38 @@ export async function POST(request: NextRequest) {
 
   let update = await prisma.ticket.findUnique({
     where:{
-      id: message.id
+      id: jsonMessage.id
     }
   })
 
+  if (!update) {
+    return NextResponse.json({ success: false, message: "Something went wrong!"}, { status: 400 });
+  }
 
   const newMessage = {
-    name: message.name,
-    user: message.email,
-    avatar: message.avatar,
-    text: message.text,
-    date: message.date,
+    name: jsonMessage.name,
+    user: jsonMessage.email,
+    avatar: jsonMessage.avatar,
+    text: jsonMessage.text,
+    date: jsonMessage.date,
     images: images
   }
+
   update?.ticket.push(newMessage)
-  if (message.type === "admin") {
-    update!.responder = [{name: message.name, email: message.email, phone: "+1 234 5678 90", lang: "ENGLISH", avatar: message.avatar}]
+  if (jsonMessage.type === "admin") {
+    update!.responder = [{name: jsonMessage.name, email: jsonMessage.email, phone: "+1 234 5678 90", lang: "ENGLISH", avatar: jsonMessage.avatar}]
   }
-  delete update?.id
+
   const updateDB = await prisma.ticket.update({
-    where:{
-      id:message.id
+    where: {
+      id: jsonMessage.id
     },
-    data: update
+    data: {
+      ticket: update.ticket as any,
+      responder: update.responder as any
+    }
   })
+
   return NextResponse.json(
     { success: true },
     { status: 200 }
