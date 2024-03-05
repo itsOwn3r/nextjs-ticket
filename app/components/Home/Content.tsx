@@ -34,7 +34,7 @@ type Ticket = {
   date: number,
   time: Date
 }
-const Content = ({ ticket, type, documentTitle }: {ticket: Ticket, type: string, documentTitle: string | undefined }) => {
+const Content = ({ ticket, type, documentTitle }: {ticket?: Ticket, type: string, documentTitle?: string | undefined }) => {
   type blobing =  { img: Blob | MediaSource | string}[];
   const user = useSession()
 
@@ -129,7 +129,7 @@ const closeHandler = async () => {
         const req = await fetch("/api/close",{
           method: "POST",
           body: JSON.stringify({
-            ticket: ticket.id,
+            ticket: ticket?.id,
             user: user!.data!.user!.email,
             type: user!.data!.user!.type
           })
@@ -148,7 +148,7 @@ const closeHandler = async () => {
 
 
 const numberOfTickets = ticket?.ticket.length
-const timeAgo = getDate(ticket?.date)
+const timeAgo = getDate(ticket?.date!)
 
 if (user.status === "loading") {
   return <div className="flex fixed w-full h-full justify-center items-center"><FaSpinner className="animate-spin text-[4rem]" /></div>
@@ -178,7 +178,7 @@ if (user.status === "loading") {
                 <BsPersonFillAdd />
               </span>
               <span className="mr-[10px] text-[18px] text-[#202020] font-[800]">
-              {ticket?.responder.length > 0 ? ticket?.responder[ticket?.responder?.length - 1]?.name : "Waiting..."}
+              {ticket?.responder.length! > 0 ? ticket?.responder[ticket?.responder?.length - 1]?.name : "Waiting..."}
               </span>
             </div>
           </div>}

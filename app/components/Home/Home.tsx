@@ -4,7 +4,7 @@ import Header from "./Header";
 import SubHeader from "./SubHeader";
 import Content from "./Content";
 import Link from "next/link";
-type Ticket = {
+export type Ticket = {
   id: string,
   title: string,
   ticket: {

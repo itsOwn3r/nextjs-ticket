@@ -4,11 +4,26 @@ import { BsTelephone } from "react-icons/bs";
 import { BsGlobe2 } from "react-icons/bs";
 import RightAsideLinks from "./RightAsideLinks";
 import Image from "next/image";
-const RightAside = ({ type, response }: { type: string, response: {name: string, email: string, phone: string, lang: string, avatar: string | undefined}[] }) => {
+const RightAside = ({ type, response }: { type: string, response?: {name: string, email: string, phone: string, lang: string, avatar: string | undefined}[] }) => {
+  
+  if (response === undefined) {
+    return (
+    <div className="flex flex-col h-[100vh] md:w-[25%] w-[100%]">
+            <RightAsideLinks />
+    </div>
+    )
+  }
+
+  if (type === "newticket") {
+    return (
+    <div className="flex flex-col h-[100vh] md:w-[25%] w-[100%]">
+            <RightAsideLinks />
+    </div>
+    )
+  }
+
   return (
     <div className="flex flex-col h-[100vh] md:w-[25%] w-[100%]">
-      {type === "ticket" && (
-        <>
           <div className="asignee h-[50%] w-[100%] flex flex-col justify-start mt-[15px]">
             <div className="avatar flex items-center justify-center md:justify-start w-[90%] h-[80px]">
               {response?.length > 0 ? <Image width={70} height={70}
@@ -52,8 +67,6 @@ const RightAside = ({ type, response }: { type: string, response: {name: string,
             }
           </div>
           <div className="line w-[100%] h-[3px] bg-[#202020]" />
-        </>
-      )}
 
       <RightAsideLinks />
     </div>

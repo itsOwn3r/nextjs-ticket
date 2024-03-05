@@ -9,9 +9,10 @@ import Ticket from "./ticket";
 import Link from "next/link";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { FaSpinner } from "react-icons/fa";
+import { TicketTypeFixed } from "@/types/types";
 
 
-export async function getTickets() {
+export const getTickets: () => Promise<TicketTypeFixed> = async () => {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
    let tickets;
@@ -48,14 +49,9 @@ export async function DisplayTickets(){
 }
 
 export async function DisplayRecentTickets(){
-  const tickets = await getTickets()
-  const recentTickets: {id: string, text: string, date: number}[] = []
+  const tickets = await getTickets();
 
-  for(let ticket of tickets){
-    recentTickets.push({id: ticket.id,text: ticket.ticket[ticket.ticket.length - 1]!.text, date: ticket.ticket[ticket.ticket.length - 1]!.date})
-  }
-
-  let rtArr = recentTickets.splice(0, 5) // recent tickets array, it only shows first 5 tickets
+  let rtArr = tickets.splice(0, 5) // recent tickets array, it only shows first 5 tickets
 
   rtArr = rtArr.sort((a, b) => {
     if (a.date < b.date) {
@@ -66,8 +62,8 @@ export async function DisplayRecentTickets(){
   })
 
   return <>
-    {rtArr?.map((ticket, i) => {
-      return <Ticket key={i} type="recent" id={ticket.id} date={ticket.date} title={ticket.text} />
+    {rtArr?.map((ticket:any, i) => {
+      return <Ticket key={i} type="recent" id={ticket.id} date={ticket?.ticket[ticket.ticket.length -1].date} title={ticket?.ticket[ticket.ticket.length -1].text}/>
     })}
   </>
 }

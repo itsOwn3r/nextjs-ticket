@@ -8,12 +8,12 @@ import { getDate } from './components/dateHandler'
 type Ticket = {
     id: string,
     title: string,
-    ticketStatus: string | undefined | null,
-    department: string,
+    ticketStatus?: string | undefined | null,
+    department?: string,
     date: number,
-    priority: string,
-    tag: string[],
-    length: number,
+    priority?: string,
+    tag?: string[],
+    length?: number,
     type: string,
 }
 

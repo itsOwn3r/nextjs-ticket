@@ -1,5 +1,5 @@
 import React from 'react'
-import Home from "@/app/components/Home/Home";
+import Home, { Ticket } from "@/app/components/Home/Home";
 import prisma from '@/prisma/client';
 
 const Page = async ({params}: {params: {ticket: string[]}}) => {
@@ -12,7 +12,7 @@ const Page = async ({params}: {params: {ticket: string[]}}) => {
         })
 
   return (
-      <Home ticket={data} documentTitle={data?.title} />
+      <Home ticket={data as Ticket} documentTitle={data?.title} />
       )
     } catch (error) {
         console.log(error)
