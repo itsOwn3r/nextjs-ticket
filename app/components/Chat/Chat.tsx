@@ -5,7 +5,7 @@ interface Message{
     name: string,
     avatar: string | null,
     text: string,
-    attachment: string[],
+    attachment?: string[],
     username: string,
     date: number,
 }

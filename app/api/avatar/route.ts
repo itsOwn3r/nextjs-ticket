@@ -1,9 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-export async function POST(request: NextRequest) {
+import { getServerSession } from "next-auth";
+import { NextApiRequest } from "next";
+import { authOptions } from "../auth/[...nextauth]/route";
+export async function POST(request: NextRequest, req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { status: "Not Ok", success: false, Error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+  const userEmail = session?.user.email;
   const formData = await request.formData();
-  const message = JSON.parse(formData.get("message"));
-
+  
+  const email = formData.get("email");
+  // console.log(email);
+// return;
   // Empty arr to store the image urls
   const images: string[] = [];
 
@@ -42,21 +55,26 @@ if (images.length < 1) {
     { status: 400 }
   );
 }
+// console.log(images[0]);
 
-  let update = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where:{
-      email: message.user
+      email: userEmail
     }
   })
-  update!.avatar = images[0]
 
-  delete update?.id
+  if (user?.email !== email as string) {
+    return NextResponse.json({ status: "Not Ok", success: false, Error: "Unauthorized" },{ status: 401 });
+  }
+
   // updating the db
   const updateDB = await prisma.user.update({
     where:{
-        email: message.user
+        email: email as string
     },
-    data: update
+    data: {
+      avatar: images[0]
+    }
   })
 
   return NextResponse.json(

@@ -3,9 +3,22 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { FiSend } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 type blobing =  { img: Blob | MediaSource | string}[];
 let allArr: blobing = [];
-const Send = ({type,setMessageValue,getFormData, id, name, email, avatar, userType}: {type:string, setMessageValue: Dispatch<SetStateAction<string>>, getFormData: Dispatch<SetStateAction<blobing>>, id: string, name: string, avatar:string | null, email:string, userType: string}) => {
+
+interface SendProps{
+  type?:string;
+  setMessageValue?: Dispatch<SetStateAction<string>>;
+  getFormData?: Dispatch<SetStateAction<blobing>>;
+  id?: string;
+  name?: string;
+  avatar?:string | null;
+  email?:string;
+  userType?: string;
+}
+
+const Send = ({type, setMessageValue, getFormData, id, name, email, avatar, userType}: SendProps) => {
   const [message, setMessage] = useState("");
   const [previewImg, setPreviewImg] = useState<blobing>([{img: ""}]);
   const router = useRouter()
@@ -16,7 +29,7 @@ const Send = ({type,setMessageValue,getFormData, id, name, email, avatar, userTy
     let formData:any = new FormData();
     if (previewImg.length >= 1) {
       for(let image of previewImg){
-      if (image !== "") {
+      if (typeof image.img !== "string") {
         formData.append("files", image.img)
       }
     }
@@ -64,6 +77,9 @@ const dataObj = {
       }
 
       setPreviewImg([...allArr]);
+      if (getFormData === undefined) {
+        return;
+      }
       type === "newticket" &&  getFormData([...allArr])
     }
   };
@@ -80,9 +96,11 @@ const dataObj = {
       <form className="mb-[24px] flex flex-col w-[85%] md:w-[65%] text-center mx-[10px]">
         <span>{type === "newticket" ? "Tell Us About It:" :  'New Message?'}</span>
         <textarea onChange={(e) => { 
-          setMessage(e.target.value) 
+          if (setMessage) {
+            setMessage(e.target.value)  
+          }
           
-         type === "newticket" && setMessageValue(e.target.value)
+         (type === "newticket" && setMessageValue) && setMessageValue(e.target.value)
         }
           }  value={message} name="message" id="message" className="w-[100%] bgnone border-solid border-[1px] border-[#bbb] text-[#fff] p-[3] rounded-[10px] leading-[2] md:leading-[3]" />
       </form>
@@ -96,20 +114,22 @@ const dataObj = {
         {previewImg &&
           previewImg.map((img, i) => (
             <React.Fragment key={i}>
-              {img.img !== "" ? (
+              {typeof img.img !== "string" ? (
                 <div className="relative cursor-pointer inline-flex w-[75px] h-[75px] items-center justify-center border-dashed border-[1px] border-black ">
-                  <img
+                  <Image
                     className="absolute top-0 w-full h-full picHolder"
                     src={URL.createObjectURL(img.img)}
+                    fill
                     alt=""
                   />
                   <div className="absolute right-[1%] z-50 top-0 rounded-[50%] h-[20px] w-[20px] text-[0.85rem] text-right">
-                    <img
+                    <Image
+                    fill
                       className="remove z-50"
                       onClick={() => {
                         setPreviewImg(previewImg.filter((item: any) => item.img !== img.img)
                         );
-                        type === "newticket" && getFormData(previewImg.filter((item: any) => item.img !== img.img))
+                        (type === "newticket" && getFormData) && getFormData(previewImg.filter((item: any) => item.img !== img.img))
                         allArr = allArr.filter((item) => item.img !== img.img);
                       }}
                       src="/images/remove.png" alt="Delete?"

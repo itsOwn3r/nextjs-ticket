@@ -39,7 +39,7 @@ const Setting = () => {
         let formData:any = new FormData();
         if (previewImg.length >= 1) {
           for(let image of previewImg){
-          if (image !== "") {
+          if (typeof image !== "string") {
             formData.append("files", image.img)
           }
         }
@@ -48,7 +48,7 @@ const Setting = () => {
         const dataObj = {
             user: session?.data?.user?.email
           }
-              formData.append("message", JSON.stringify(dataObj));
+              formData.append("email", dataObj.user);
           try {
               const res = await fetch("/api/avatar", {
                   method: "POST",

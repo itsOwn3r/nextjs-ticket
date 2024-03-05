@@ -18,8 +18,8 @@ type Ticket = {
   ticket: {
     user: string,
     name: string,
-    avatar: string | null,
-    images: string[],
+    avatar?: string | null,
+    images?: string[],
     text: string,
     date: number
   }[],
@@ -55,7 +55,7 @@ const Content = ({ ticket, type, documentTitle }: {ticket: Ticket, type: string,
           setTags(ticket.tag)
         }
       }
-  },[])
+  },[documentTitle, ticket])
 const handleTags = () =>{
   if (tagValue !== "") {
     if (tags.length > 4) {
@@ -82,7 +82,11 @@ const openHandler = async () => {
     let formData:any = new FormData();
     if (pics.length >= 1) {
       for(let image of pics){
-      if (image !== "") {
+        console.log(typeof image);
+        console.log(typeof image.img);
+        console.log(image);
+        // return;
+      if (typeof image.img !== "string") {
         formData.append("files", image.img)
       }
     }
