@@ -12,9 +12,14 @@ export const getDate = (date:number) => {
           unit = "hours";
     }
   
-    if (exactDate > 1440) {
+    if (exactDate > 1440 && exactDate < 43200) {
       exactDate = Math.round(exactDate / 1440);
       unit = "days";
+    }
+  
+    if (exactDate > 1440 && exactDate > 43200) {
+      exactDate = Math.round(exactDate / 43200);
+      unit = "month";
     }
   
     correctDate =

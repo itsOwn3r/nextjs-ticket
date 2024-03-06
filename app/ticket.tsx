@@ -41,9 +41,9 @@ const Ticket = ({id, title, ticketStatus, department, date, priority, tag, lengt
         {ticketStatus}
         </div>
         <div className='flex flex-col'><span>{department}</span>
-        {length && length + " messages"}
+        {length && length + " msg"}
         </div>
-            <span className=''>
+            <span className='md:text-[16px] text-[13px] text-zinc-400'>
                 {getDate(Number(date))}
             </span>
         </Link>
