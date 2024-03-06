@@ -79,7 +79,7 @@ export async function DisplayTickets(pagination: { page: string | number }){
 
       {tickets.length < 1 && <div className="flex justify-center w-[100%] mt-[20px] text-center flex-col">
         <span className="text-[20px]">Seems like there is no ticket here!</span>
-        <Link href="/new" className="w-[100%]"><button className="w-[30%] mt-[15px] bg-[#3342c5] text-[18px] rounded-[10px] p-[10px] cursor-pointer hover:bg-[#5665ee]">Create Your New Ticket</button></Link>
+        <Link href="/new" className="w-[100%]"><button className="w-[70%] lg:w-[30%] mt-[15px] bg-[#3342c5] text-[18px] rounded-[10px] p-[10px] cursor-pointer hover:bg-[#5665ee]">Create Your New Ticket</button></Link>
       </div>
       }
     </>
