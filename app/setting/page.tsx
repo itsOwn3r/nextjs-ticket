@@ -1,7 +1,7 @@
 "use client"
-import Aside from "@/app/components/Home/Aside";
-import Header from "@/app/components/Home/Header";
-import SubHeader from "@/app/components/Home/SubHeader";
+import Aside from "@/components/Home/Aside";
+import Header from "@/components/Home/Header";
+import SubHeader from "@/components/Home/SubHeader";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

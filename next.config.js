@@ -12,7 +12,7 @@ const nextConfig = {
   },
     distDir: 'build',
     typescript: {
-    ignoreBuildErrors: true,
+    // ignoreBuildErrors: true,
   },}
 
 module.exports = nextConfig

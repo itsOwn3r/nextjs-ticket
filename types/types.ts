@@ -11,6 +11,7 @@ export type MessageType = {
 };
 
 export type TicketType = {
+  title: string,
   ticket: {
     user: string;
     name: string;

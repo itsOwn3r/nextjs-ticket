@@ -2,7 +2,7 @@ import React from 'react'
 import { getDate } from '../dateHandler'
 import Image from 'next/image'
 
-interface Message{
+export interface Message{
     name: string,
     avatar: string | undefined,
     text: string,

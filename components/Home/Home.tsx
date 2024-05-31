@@ -4,28 +4,8 @@ import Header from "./Header";
 import SubHeader from "./SubHeader";
 import Content from "./Content";
 import Link from "next/link";
-export type Ticket = {
-  id: string,
-  title: string,
-  ticket: {
-    user: string,
-    name: string,
-    avatar: string | undefined,
-    images: string[],
-    text: string,
-    date: number
-  }[],
-  userMail: string,
-  department: string,
-  priority: string,
-  status: string,
-  tag: string[],
-  userName: string,
-  images: string[],
-  responder: { name: string; email: string; phone: string; lang: string; avatar: string | undefined; }[],
-  date: number,
-  time: Date
-}
+import { Ticket } from "@prisma/client";
+
 const Home = async ({ticket, documentTitle}: {ticket: Ticket, documentTitle: string | undefined }) => {
   return (
     <>

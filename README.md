@@ -41,6 +41,6 @@ Keep in mind, `Cloudinary` is only for uploading images and avatars.
 After they signed up, you just need to set the `type` of user to `admin`
 
 ## Preview
-You could login to the [preview URL](https://ticket.own3r.me/) with email & password: `demo@demo.com`
+You can login to the [preview URL](https://ticket.own3r.me/) with email & password: `demo@demo.com`
 
-You could also signup with your email!
+You can also signup with your email!

@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import AuthProvider from './auth/Provider'
+import AuthProvider from '@/components/auth/Provider'
 const roboto = localFont({ src: '../public/fonts/roboto.ttf' })
 
 export const metadata: Metadata = {

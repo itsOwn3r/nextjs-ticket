@@ -1,8 +1,8 @@
 import React from "react";
-import Aside from "../components/Home/Aside";
-import Header from "../components/Home/Header";
-import SubHeader from "../components/Home/SubHeader";
-import Content from "../components/Home/Content";
+import Aside from "@/components/Home/Aside";
+import Header from "@/components/Home/Header";
+import SubHeader from "@/components/Home/SubHeader";
+import Content from "@/components/Home/Content";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: 'Open New Ticket',

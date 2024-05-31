@@ -12,28 +12,9 @@ import Send from "../Chat/Send";
 import RightAside from "./RightAside";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-type Ticket = {
-  id: string,
-  title: string,
-  ticket: {
-    user: string,
-    name: string,
-    avatar?: string | null,
-    images?: string[],
-    text: string,
-    date: number
-  }[],
-  userMail: string,
-  department: string,
-  status: string,
-  priority: string,
-  tag: string[],
-  userName: string,
-  images: string[],
-  responder: {name: string, email: string, phone: string, lang: string, avatar: string | undefined }[],
-  date: number,
-  time: Date
-}
+import { Ticket } from "@prisma/client";
+
+
 const Content = ({ ticket, type, documentTitle }: {ticket?: Ticket, type: string, documentTitle?: string | undefined }) => {
   type blobing =  { img: Blob | MediaSource | string}[];
   const user = useSession()
@@ -150,6 +131,10 @@ const closeHandler = async () => {
 const numberOfTickets = ticket?.ticket.length
 const timeAgo = getDate(ticket?.date!)
 
+  const rawJsonValueResponder = JSON.stringify(ticket?.responder[ticket?.responder?.length - 1]) || JSON.stringify({name: "Waiting..."});
+
+  const responder = JSON.parse(rawJsonValueResponder)
+
 if (user.status === "loading") {
   return <div className="flex fixed w-full h-full justify-center items-center"><FaSpinner className="animate-spin text-[4rem]" /></div>
 }else if (user.status === "unauthenticated") {
@@ -178,7 +163,7 @@ if (user.status === "loading") {
                 <BsPersonFillAdd />
               </span>
               <span className="mr-[10px] text-[18px] text-[#202020] font-[800]">
-              {ticket?.responder.length! > 0 ? ticket?.responder[ticket?.responder?.length - 1]?.name : "Waiting..."}
+              {responder?.name}
               </span>
             </div>
           </div>}
@@ -330,13 +315,15 @@ if (user.status === "loading") {
         <>
         <div className="messages flex flex-col mt-[15px]">
           {ticket ? ticket.ticket.map((ticket, i) => {
+            const rawTicket = JSON.stringify(ticket);
+            const parsedTicket = JSON.parse(rawTicket);
             return <Chat key={i}
-            name={ticket.name}
+            name={parsedTicket?.name}
             username={user!.data!.user!.name!}
-            avatar={ticket.avatar || undefined}
-            text={ticket.text}
-            attachment={ticket.images}
-            date={ticket.date}
+            avatar={parsedTicket?.avatar || undefined}
+            text={parsedTicket?.text}
+            attachment={parsedTicket?.images}
+            date={parsedTicket?.date}
           />
 
           }) : "Loading..."}
@@ -347,7 +334,7 @@ if (user.status === "loading") {
 
       </div>
 
-      <RightAside type={type} response={ticket?.responder} />
+      <RightAside type={type} response={responder} />
     </main>
   );
 };
