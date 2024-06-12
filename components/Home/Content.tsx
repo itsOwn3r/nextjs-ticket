@@ -26,6 +26,7 @@ const Content = ({ ticket, type, documentTitle }: {ticket?: Ticket, type: string
   const [pics, setPics] = useState<blobing>([{img: ""}])
   const [messageValue, setMessageValue] = useState<string>("")
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (documentTitle) {
@@ -86,19 +87,27 @@ const openHandler = async () => {
       tags: tags,
     }
     formData.append("data", JSON.stringify(data));
-    const res = await fetch("/api/ticket", {
-      method: "POST",
-      body: formData,
-    });
-    const response = await res.json()
-    if (response.success) {
-      // setMessageValue("")
-      //redirect
-      if (response.path) {
-        const url = "/ticket/" + response.path
-        router.replace(url)
-      }
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/ticket", {
+        method: "POST",
+        body: formData,
+      });
+      const response = await res.json()
+      if (response.success) {
+        // setMessageValue("")
+        //redirect
+        if (response.path) {
+          const url = "/ticket/" + response.path
+          router.replace(url)
+        }
+      }      
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
+
 }
 
 const closeHandler = async () => {
@@ -179,7 +188,7 @@ if (user.status === "loading") {
             <option value="accounting">Accounting</option>
           </select>}
 
-          {type === "newticket" && <select defaultValue={"shipment"} ref={depRef} name="department" id="department" className="w-[30vw] md:w-[20vw] bg-zinc-700 p-[7px] rounded-[7px]">
+          {type === "newticket" && <select disabled={isLoading} defaultValue={"shipment"} ref={depRef} name="department" id="department" className="w-[30vw] md:w-[20vw] bg-zinc-700 p-[7px] rounded-[7px]">
             <option value="sales">Sales</option>
             <option value="shipment">Shipment</option>
             <option value="accounting">Accounting</option>
@@ -206,6 +215,7 @@ if (user.status === "loading") {
             <select
               name="priority"
               defaultValue="medium"
+              disabled={isLoading}
               ref={prioRef}
               id="priority"
               className="w-[30vw] md:w-[20vw] bg-zinc-700 p-[7px] rounded-[7px]"
@@ -227,7 +237,7 @@ if (user.status === "loading") {
         handleTags() 
       }
           onKeyDown={e => e.key === "Enter" && handleTags() }
-           type="text" name="tag" placeholder="type + enter" disabled={type === "ticket" ? true : false} className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]"/>
+           type="text" name="tag" placeholder="type + enter" disabled={(type === "ticket" || isLoading) ? true : false} className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]"/>
         
         <div className="holderOfSpans flex rtl justify-center items-center bg-transparent">
 
@@ -300,11 +310,11 @@ if (user.status === "loading") {
               <>
               <span className="text-center text-[20px] font-[500] my-[5px]">Enter ticket&apos;s title:</span>
               <div className="flex w-[100%] justify-center ">
-              <input type="text" onChange={e => setTitle(e.target.value)} name="title" className="p-[12px] w-[75%] md:w-[50%] flex justify-center rounded-[10px] text-[#000] font-[600] text-[16px]" placeholder="Ticket's Title" />
+              <input disabled={isLoading} type="text" onChange={e => setTitle(e.target.value)} name="title" className="p-[12px] w-[75%] md:w-[50%] flex justify-center rounded-[10px] text-[#000] font-[600] text-[16px]" placeholder="Ticket's Title" />
               </div>
               <Send type="newticket" getFormData={getFormData} setMessageValue={setMessageValue} />
               <div className="flex justify-center">
-                <button onClick={openHandler} className="p-[15px_30px] text-[19px] mt-[15px] bg-[#178717] hover:bg-[#04ad04] rounded-[10px]">Open Ticket</button>
+                <button disabled={isLoading} onClick={openHandler} className={`p-[15px_30px] text-[19px] mt-[15px]  rounded-[10px] ${isLoading ? 'bg-[#3f3f3f] hover:bg-[#353535]' : 'bg-[#178717] hover:bg-[#04ad04]' }`}>{isLoading ? "Opening Ticket..." : "Open Ticket"}</button>
               </div>
         
               </>
