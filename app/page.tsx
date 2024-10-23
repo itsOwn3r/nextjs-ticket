@@ -38,7 +38,7 @@ const Dashboard = async (params: { searchParams: { page: string | number }}) => 
                   
                   <Suspense fallback={<div className="flex justify-center w-full mt-[4rem]"><FaSpinner className="animate-spin text-[4rem]" /></div>}>
                   <DisplayTickets page={currentPage} />
-                  <div className="flex justify-center w-full">
+                  <div className="flex justify-center w-full my-4 ">
                     <Pagination pages={pages} currentPage={currentPage} />
                   </div>
                   </Suspense>
