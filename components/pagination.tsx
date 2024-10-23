@@ -5,7 +5,6 @@ const Pagination = ({pages, currentPage}: { pages: number, currentPage: number }
     
   const router = useRouter();
 
-  console.log(pages);
   const changePage = (page: number) => {
     router.push(`/?page=${page}`)
   }
