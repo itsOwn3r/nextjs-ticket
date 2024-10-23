@@ -41,7 +41,7 @@ const Ticket = ({id, title, ticketStatus, department, date, priority, tag, lengt
         {type === "recent" && <BsFillChatQuoteFill className="mr-[10px]" />}
         <Link href={"/ticket/" + id} className='flex justify-evenly items-center w-full hover:text-[#888787] hover:scale-105'>
 
-            <div className='ticketTitle w-[45%]'>
+            <div className='ticketTitle w-[60%]'>
                 <div className='flex mr-[20px]'>
                     {title}
                 </div>
