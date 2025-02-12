@@ -20,42 +20,44 @@ const Content = ({ ticket, type, documentTitle }: {ticket?: Ticket, type: string
   const user = useSession()
 
 
-  const [tags, setTags] = useState<string[]>([])
-  const [tagValue, setTagValue] = useState("")
-  const [title, setTitle] = useState("")
-  const [pics, setPics] = useState<blobing>([{img: ""}])
-  const [messageValue, setMessageValue] = useState<string>("")
-  const router = useRouter()
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagValue, setTagValue] = useState("");
+  const [title, setTitle] = useState("");
+  const [pics, setPics] = useState<blobing>([{img: ""}]);
+  const [messageValue, setMessageValue] = useState<string>("");
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (documentTitle) {
-      document.title = documentTitle + " - Ticketing System"
+      document.title = documentTitle + " - Ticketing System";
     }
       if (ticket) {
         if (ticket.tag.length > 0) {
-          setTags(ticket.tag)
+          setTags(ticket.tag);
         }
       }
   },[documentTitle, ticket])
-const handleTags = () =>{
-  if (tagValue !== "") {
-    if (tags.length > 4) {
-      return;
+  
+  const handleTags = () => {
+    if (tagValue !== "") {
+      if (tags.length > 4) {
+        return;
+      }
+      let finalTagValue = tagValue.replaceAll(" ", "|");
+      setTags([...tags, finalTagValue]);
     }
-    let finalTagValue = tagValue.replaceAll(" ", "|")
-    setTags([...tags, finalTagValue])
+    setTagValue("");
   }
-  setTagValue("")
-}
-const depRef = useRef<HTMLSelectElement>(null)
-const prioRef = useRef<HTMLSelectElement>(null)
+
+  const depRef = useRef<HTMLSelectElement>(null)
+  const prioRef = useRef<HTMLSelectElement>(null)
 
 
 
-const getFormData = (data:SetStateAction<blobing>) => {
-setPics(data)
-}
+  const getFormData = (data:SetStateAction<blobing>) => {
+  setPics(data)
+  }
 
 const openHandler = async () => {
     if (title === "" || (messageValue === "" && pics[0]["img"].toString().length < 1)) {
@@ -95,7 +97,9 @@ const openHandler = async () => {
       });
       const response = await res.json()
       if (response.success) {
-        // setMessageValue("")
+        setMessageValue("")
+        setTitle("");
+        
         //redirect
         if (response.path) {
           const url = "/ticket/" + response.path
@@ -237,7 +241,7 @@ if (user.status === "loading") {
         handleTags() 
       }
           onKeyDown={e => e.key === "Enter" && handleTags() }
-           type="text" name="tag" placeholder="type + enter" disabled={(type === "ticket" || isLoading) ? true : false} className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]"/>
+           type="text" name="tag" placeholder={type === "ticket" ? "" : "type + enter"} disabled={(type === "ticket" || isLoading) ? true : false} className="bg-[#d5d5d5] text-[#000] rounded-[10px] outline-none w-[100%] p-[5px]" />
         
         <div className="holderOfSpans flex rtl justify-center items-center bg-transparent">
 
@@ -275,8 +279,8 @@ if (user.status === "loading") {
         </section>
       </div>
 
-      <div className="w-[100%] px-[5px] md:px-[15px] mt-[15px]">
-        <div className="conversation w-[100%] p-[7px] bg-[#5656567a] rounded-[7px]">
+      <div className="w-[100%] px-[5px] md:px-[15px] mt-[15px] flex flex-col justify-between">
+        <div className="conversation w-[100%] p-8 bg-[#2828285c] rounded-[7px]">
           <div className="flex flex-col">
             {type !== "newticket" ? (
               <>
@@ -323,7 +327,7 @@ if (user.status === "loading") {
         </div>
         {type === "ticket" &&
         <>
-        <div className="messages flex flex-col mt-[15px]">
+        <div className="messages flex flex-col mt-[15px] flex-1">
           {ticket ? ticket.ticket.map((ticket, i) => {
             const rawTicket = JSON.stringify(ticket);
             const parsedTicket = JSON.parse(rawTicket);

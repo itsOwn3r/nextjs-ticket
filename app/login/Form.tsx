@@ -64,7 +64,7 @@ const LogUp = ({type}: {type: string}) => {
         redirect: false 
       })
       if (res?.status == 200) {
-        setError("");
+        setError("✅");
         router.replace("/");
       } else {
           setError("Wrong credentials!");

@@ -1,5 +1,6 @@
-import Ticket from "@/app/ticket";
+import Ticket from "@/components/ticket";
 import { getTickets } from "./getTickets";
+import { TicketType } from "./DisplayTickets";
 
 export async function DisplayRecentTickets(){
     const tickets = await getTickets(0);
@@ -40,7 +41,8 @@ export async function DisplayRecentTickets(){
   
     return <>
       {rtArr?.map((ticket:any, i) => {
-        return <Ticket key={i} type="recent" id={ticket.id} date={ticket?.ticket[ticket.ticket.length - 1].date} title={ticket?.ticket[ticket.ticket.length - 1].text}/>
+        const lastTicket:TicketType = JSON.parse(JSON.stringify(ticket?.ticket?.[ticket?.ticket?.length - 1] ?? {}));
+        return <Ticket key={i} type="recent" message={ticket.title} id={ticket.id} date={ticket?.ticket[ticket.ticket.length - 1].date} title={lastTicket.text} lastResponder={lastTicket.name} />
       })}
     </>
   }

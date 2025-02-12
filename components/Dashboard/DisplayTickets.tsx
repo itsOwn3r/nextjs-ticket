@@ -1,8 +1,8 @@
-import Ticket from "@/app/ticket";
+import Ticket from "@/components/ticket";
 import { getTickets } from "./getTickets";
 import Link from "next/link";
 
-type TicketType = {
+export type TicketType = {
     user: string,
     name: string,
     avatar?: string,
@@ -14,12 +14,12 @@ type TicketType = {
 export async function DisplayTickets(pagination: { page: string | number }){
     const page = Number(pagination.page) - 1;
     const tickets = await getTickets(page);
-  
+
     return (
       <>
-        {tickets?.map((ticket, i) => {
-          const lastTicket:TicketType = JSON.parse(JSON.stringify(ticket.ticket[ticket.ticket.length - 1]));
-          return <Ticket key={i} type="tickets" lastResponder={lastTicket.name || "User"} id={ticket.id} title={ticket.title} ticketStatus={ticket.status} department={ticket.department} date={ticket.date} priority={ticket.priority} tag={ticket.tag} length={ticket.ticket.length} />
+        {tickets.map((ticket, i) => {
+          const lastTicket:TicketType = JSON.parse(JSON.stringify(ticket?.ticket?.[ticket?.ticket?.length - 1] ?? {}));
+          return <Ticket key={i} message={lastTicket.text} type="tickets" lastResponder={lastTicket.name || "User"} id={ticket.id} title={ticket.title} ticketStatus={ticket.status} department={ticket.department} date={ticket.date} priority={ticket.priority} tag={ticket.tag} length={ticket.ticket.length} />
         })}
   
         {tickets.length < 1 && <div className="flex justify-center w-[100%] mt-[20px] text-center flex-col">

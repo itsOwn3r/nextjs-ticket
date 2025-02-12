@@ -112,7 +112,7 @@ const Send = ({type, setMessageValue, getFormData, id, name, email, avatar, user
           <ImAttachment className="w-[24px] h-[24px] md:mx-[10px] cursor-pointer" />
         </div>
       </div>
-      <form className="mb-[24px] flex flex-col w-[85%] md:w-[65%] text-center mx-[10px]">
+      <form className="mb-[24px] flex flex-col w-full md:w-[85%] text-center mx-[10px]">
         <span>{type === "newticket" ? "Tell Us About It:" :  'New Message?'}</span>
         <textarea disabled={isLoading} onChange={(e) => { 
           if (setMessage) {
@@ -144,7 +144,7 @@ const Send = ({type, setMessageValue, getFormData, id, name, email, avatar, user
                   <div className="absolute right-[1%] z-50 top-0 rounded-[50%] h-[20px] w-[20px] text-[0.85rem] text-right">
                     <Image
                     fill
-                      className="remove z-50"
+                      className="remove z-50 border border-red-600 rounded-xl"
                       onClick={() => {
                         setPreviewImg(previewImg.filter((item: any) => item.img !== img.img)
                         );

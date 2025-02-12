@@ -43,7 +43,7 @@ display: block;
 }
 
 .full-width{
-  width: calc(100% - 57px)
+  width: calc(100% - 42px)
 }
 
 main div section {
@@ -70,4 +70,10 @@ main div section {
   100% {
     transform: translate(0, 0);
    }
+}
+
+@media (min-width: 768px) {
+  .full-width{
+    width: calc(100% - 57px)
+  }
 }
